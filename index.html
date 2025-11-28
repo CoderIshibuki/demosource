@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo DOM Basic</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box {
+            width: 200px; height: 100px;
+            background-color: #ddd;
+            border: 2px solid #333;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 10px; font-weight: bold;
+        }
+        button { padding: 8px 15px; cursor: pointer; margin-right: 5px; }
+        #log-area { margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Demo Thao Tác DOM</h2>
+
+    <div id="target-box" class="box">Hộp Nội Dung</div>
+
+    <div>
+        <button onclick="changeText()">1. Đổi Text (innerHTML)</button>
+        <button onclick="changeColor()">2. Đổi Màu (style)</button>
+        <button onclick="addElement()">3. Thêm Phần Tử (appendChild)</button>
+    </div>
+
+    <div id="log-area">
+        <h3>Danh sách đã thêm:</h3>
+        <ul id="list-container"></ul>
+    </div>
+
+    <script>
+        // 1. Truy xuất phần tử và thay đổi nội dung
+        function changeText() {
+            const box = document.getElementById('target-box');
+            box.innerHTML = "Đã thay đổi!";
+        }
+
+        // 2. Thay đổi CSS (Style) trực tiếp
+        function changeColor() {
+            const box = document.getElementById('target-box');
+            // Random màu sắc để demo sinh động hơn
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            box.style.backgroundColor = randomColor;
+            box.style.color = "#fff";
+        }
+
+        // 3. Tạo phần tử mới và thêm vào DOM
+        function addElement() {
+            const list = document.getElementById('list-container');
+            
+            // Bước 1: Tạo thẻ <li> mới
+            const newItem = document.createElement('li');
+            
+            // Bước 2: Gán nội dung
+            newItem.textContent = "Item mới lúc " + new Date().toLocaleTimeString();
+            
+            // Bước 3: Gắn vào cha (appendChild)
+            list.appendChild(newItem);
+        }
+    </script>
+</body>
+</html>
