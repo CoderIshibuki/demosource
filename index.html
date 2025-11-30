@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Demo DOM Basic</title>
+    <title>Demo DOM addEventListener</title>
     <style>
         body { font-family: sans-serif; padding: 20px; }
         .box {
@@ -11,6 +11,8 @@
             border: 2px solid #333;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 10px; font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease; /* Makes the hover effect smooth */
         }
         button { padding: 8px 15px; cursor: pointer; margin-right: 5px; }
         #log-area { margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 10px; }
@@ -18,14 +20,14 @@
 </head>
 <body>
 
-    <h2>Demo Thao Tác DOM</h2>
+    <h2>Demo: addEventListener</h2>
 
     <div id="target-box" class="box">Hộp Nội Dung</div>
 
     <div>
-        <button onclick="changeText()">1. Đổi Text (innerHTML)</button>
-        <button onclick="changeColor()">2. Đổi Màu (style)</button>
-        <button onclick="addElement()">3. Thêm Phần Tử (appendChild)</button>
+        <button id="btn-text">1. Đổi Text</button>
+        <button id="btn-color">2. Đổi Màu</button>
+        <button id="btn-add">3. Thêm Phần Tử</button>
     </div>
 
     <div id="log-area">
@@ -34,34 +36,66 @@
     </div>
 
     <script>
-        // 1. Truy xuất phần tử và thay đổi nội dung
-        function changeText() {
-            const box = document.getElementById('target-box');
-            box.innerHTML = "Đã thay đổi!";
+      
+        const textMessages = [
+            "1. Bắt đầu hành trình",
+            "2. Học về DOM",
+            "3. Hiểu về Event",
+            "4. Thay đổi Style",
+            "5. Kết thúc vòng lặp"
+        ];
+        let currentIndex = 0;
+
+        
+        const box = document.getElementById('target-box');
+        const btnText = document.getElementById('btn-text');
+        const btnColor = document.getElementById('btn-color');
+        const btnAdd = document.getElementById('btn-add');
+        const list = document.getElementById('list-container');
+
+        // --- 3. DEFINE FUNCTIONS (The Logic) ---
+        
+        function handleTextChange() {
+            box.innerHTML = textMessages[currentIndex];
+            currentIndex++;
+            if (currentIndex >= textMessages.length) {
+                currentIndex = 0;
+            }
         }
 
-        // 2. Thay đổi CSS (Style) trực tiếp
-        function changeColor() {
-            const box = document.getElementById('target-box');
-            // Random màu sắc để demo sinh động hơn
+        function handleColorChange() {
             const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
             box.style.backgroundColor = randomColor;
             box.style.color = "#fff";
         }
 
-        // 3. Tạo phần tử mới và thêm vào DOM
-        function addElement() {
-            const list = document.getElementById('list-container');
-            
-            // Bước 1: Tạo thẻ <li> mới
+        function handleAddElement() {
             const newItem = document.createElement('li');
-            
-            // Bước 2: Gán nội dung
             newItem.textContent = "Item mới lúc " + new Date().toLocaleTimeString();
-            
-            // Bước 3: Gắn vào cha (appendChild)
             list.appendChild(newItem);
         }
+
+        
+        btnText.addEventListener('click', handleTextChange);
+        btnColor.addEventListener('click', handleColorChange);
+        btnAdd.addEventListener('click', handleAddElement);
+
+        // hiệu ứng khi di chuyển chuột vào
+        
+        // Khi di chuyển chuột vào hộp
+        box.addEventListener('mouseenter', function() {
+            box.style.borderColor = 'red';
+            box.style.transform = 'scale(1.1)'; // Zooms in slightly
+            box.innerText = "Đang trỏ chuột vào!"; // Temporary text change
+        });
+
+        // Khi di chuột ra khỏi hộp 
+        box.addEventListener('mouseleave', function() {
+            box.style.borderColor = '#333';
+            box.style.transform = 'scale(1)'; 
+            box.innerText = textMessages[currentIndex === 0 ? textMessages.length - 1 : currentIndex - 1] || "Hộp Nội Dung";
+        });
+
     </script>
 </body>
 </html>
